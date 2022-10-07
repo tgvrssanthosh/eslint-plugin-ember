@@ -272,7 +272,23 @@ const arr = [];
       errors: [{ messageId: 'main', type: 'CallExpression' }],
     },
     {
-      // filterBy with one argument and `get` import statement already imported
+      // filterBy with one argument and @ember/object's `get` is already imported
+      code: `
+      import { get } from '@ember/object';
+      const arr = [];
+
+      arr.filterBy("age");
+      `,
+      output: `
+      import { get } from '@ember/object';
+      const arr = [];
+
+      arr.filter(item => get(item, "age"));
+      `,
+      errors: [{ messageId: 'main', type: 'CallExpression' }],
+    },
+    {
+      // filterBy with one argument and @ember/object's `get` is imported with an alias
       code: `
       import { get as g } from '@ember/object';
       const arr = [];
@@ -288,7 +304,7 @@ const arr = [];
       errors: [{ messageId: 'main', type: 'CallExpression' }],
     },
     {
-      // filterBy with one argument and `get` import statement imported from a different package
+      // filterBy with one argument and `get` is imported from package other than @ember/object
       code: `
       import { get as g } from 'dummy';
       const arr = [];
