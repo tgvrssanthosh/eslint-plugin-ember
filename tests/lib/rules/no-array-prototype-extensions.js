@@ -619,6 +619,12 @@ import { get as g } from 'dummy';
       errors: [{ messageId: 'main', type: 'CallExpression' }],
     },
     {
+      code: "something.somethingElse.without('abc').filter(item => item !== undefined && item !== null)",
+      output:
+        "(something.somethingElse.indexOf('abc') > -1 ? something.somethingElse.filter(item => item !== 'abc') : something.somethingElse).filter(item => item !== undefined && item !== null)",
+      errors: [{ messageId: 'main', type: 'CallExpression' }],
+    },
+    {
       code: 'something.lastObject',
       output: null,
       errors: [{ messageId: 'main', type: 'MemberExpression' }],
